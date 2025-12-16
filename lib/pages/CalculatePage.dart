@@ -133,10 +133,6 @@ class _CalcPageState extends State<CalculatePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text("calculate page"),
-      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(12.0),
         child: Center(
