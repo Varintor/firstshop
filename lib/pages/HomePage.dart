@@ -98,7 +98,6 @@ class _HomePageState extends State<HomePage> {
           ),
           SizedBox(height: 20),
           Text(subtitle, style: TextStyle(fontSize: 15, color: Colors.white)),
-          SizedBox(height: 15),
           TextButton(onPressed: ontab, child: Text('View Details')),
         ],
       ),
