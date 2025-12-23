@@ -1,3 +1,4 @@
+import 'package:firstshop/pages/apple.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -17,11 +18,41 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.all(20),
         child: ListView(
           children: [
-            mybox(),
+            mybox(
+              "what is a computer?",
+              "Computer is a things to calculate and fo any other works",
+              "assets/2.jpg",
+              () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ApplePage()),
+                );
+              },
+            ),
             SizedBox(height: 20),
-            mybox(),
+            mybox(
+              "what is Flutter?",
+              "Flutter is an open-source UI software development toolkit created by Google.",
+              "assets/3.jpg",
+              () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ApplePage()),
+                );
+              },
+            ),
             SizedBox(height: 20),
-            mybox(),
+            mybox(
+              "what is a Dart?",
+              "Dart is a programming language designed for building web, server, desktop, and mobile applications.",
+              "assets/4.jpg",
+              () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ApplePage()),
+                );
+              },
+            ),
             SizedBox(height: 20),
           ],
         ),
@@ -29,15 +60,22 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget mybox() {
-    return Container(
-      padding: EdgeInsets.all(20),
-      height: 150,
-      decoration: BoxDecoration(
-        color: Colors.grey[300],
-        borderRadius: BorderRadius.circular(20),
+  Widget mybox(
+    String title,
+    String subtitle,
+    String imageUrl,
+    VoidCallback ontab,
+  ) {
+    return GestureDetector(
+      onTap: ontab,
+      child: Container(
+        padding: EdgeInsets.all(20),
+        height: 150,
+        decoration: BoxDecoration(
+          color: Colors.grey[300],
+          borderRadius: BorderRadius.circular(20),
         image: DecorationImage(
-          image: NetworkImage('assets/2.jpg'),
+          image: NetworkImage(imageUrl),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
             Colors.black.withOpacity(0.3),
@@ -50,7 +88,7 @@ class _HomePageState extends State<HomePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "what is a computer?",
+            title,
             style: TextStyle(
               fontSize: 25,
               color: Colors.white,
@@ -58,12 +96,9 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           SizedBox(height: 20),
-          Text(
-            "Computer is a things to calculate and fo any other works",
-            style: TextStyle(fontSize: 15, color: Colors.white),
-          ),
+          Text(subtitle, style: TextStyle(fontSize: 15, color: Colors.white)),
         ],
       ),
-    );
+    ));
   }
 }
