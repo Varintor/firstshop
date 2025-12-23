@@ -1,4 +1,5 @@
 import 'package:firstshop/pages/apple.dart';
+import 'package:firstshop/pages/detailpage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +26,7 @@ class _HomePageState extends State<HomePage> {
               () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ApplePage()),
+                  MaterialPageRoute(builder: (context) => Detailpage()),
                 );
               },
             ),
@@ -97,6 +98,8 @@ class _HomePageState extends State<HomePage> {
           ),
           SizedBox(height: 20),
           Text(subtitle, style: TextStyle(fontSize: 15, color: Colors.white)),
+          SizedBox(height: 15),
+          TextButton(onPressed: ontab, child: Text('View Details')),
         ],
       ),
     ));
