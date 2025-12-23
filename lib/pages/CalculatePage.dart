@@ -31,7 +31,7 @@ class _CalcPageState extends State<CalculatePage> {
 
       setState(() {
         _total = priceValue * amountValue;
-        _change = 0; // รีเซ็ตเงินทอนเมื่อคิดยอดใหม่
+        _change = 0; 
       });
     }
   }
@@ -46,7 +46,6 @@ class _CalcPageState extends State<CalculatePage> {
     }
   }
 
-  // ====== widget ย่อยต่าง ๆ (ตอนนี้อยู่ใน State แล้ว ใช้ setState/ตัวแปรได้) ======
 
   Widget _priceTextField() {
     return Padding(
@@ -133,6 +132,10 @@ class _CalcPageState extends State<CalculatePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text("calculate page"),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(12.0),
         child: Center(

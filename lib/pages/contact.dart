@@ -1,3 +1,4 @@
+import 'package:firstshop/pages/apple.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -9,10 +10,37 @@ class ContactPage extends StatefulWidget {
 }
 
 class _ContactPageState extends State<ContactPage> {
-  @override
+  final items = List<String>.generate(1000, (i) => "Item $i");
+
+       @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: const [Center(child: Text('email:varintorn_si@cmu.ac.th'))],
+    List mydata = ['apple', 'papaya', 'banana', 'orange'];
+    return Scaffold(
+      appBar: AppBar(title: Text('Contact Page')),
+      body: ListView(
+        children: [
+          ListTile(
+            onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => ApplePage()));},
+            leading: FlutterLogo(),
+            title: Text(mydata[0]),
+          ),
+          ListTile(
+            onTap: () {},
+            leading: FlutterLogo(),
+            title: Text(mydata[1]),
+          ),
+          ListTile(
+            onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => ContactPage()));},
+            leading: FlutterLogo(),
+            title: Text(mydata[2]),
+          ),
+          ListTile(
+            onTap: () {},
+            leading: FlutterLogo(),
+            title: Text(mydata[3]),
+          ),
+        ],
+      ),
     );
   }
 }

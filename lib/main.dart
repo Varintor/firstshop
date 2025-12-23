@@ -4,15 +4,15 @@ import 'package:firstshop/pages/contact.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  // const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: MyHomePage());
+    return MaterialApp(debugShowCheckedModeBanner: false,title: "Computer Today", home: MyHomePage());
   }
 }
 
@@ -25,11 +25,10 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
-  final tabs = [HomePage(), CalculatePage(), ContactPage()];
+  final tabs = [HomePage(), CalculatePage(), ContactPage(),];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("My App")),
       body: tabs[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
