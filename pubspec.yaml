@@ -25,6 +25,7 @@ flutter:
   assets:
     - assets/1.jpg
     - assets/reading.gif
+    - assets/data.json
 
   fonts:
     - family: maa

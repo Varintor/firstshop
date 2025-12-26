@@ -1,0 +1,17 @@
+[
+    {
+        "title": "what is a computer?",
+        "subtitle": "Computer is a things to calculate and fo any other works",
+        "imageUrl": "assets/2.jpg"
+    },
+    {
+        "title": "what is Flutter?",
+        "subtitle": "Flutter is an open-source UI software development toolkit created by Google.",
+        "imageUrl": "assets/3.jpg"
+    },
+    {
+        "title": "what is Dart?",
+        "subtitle": "Dart is a programming language designed for client development, such as for the web and mobile apps.",
+        "imageUrl": "assets/4.jpg"
+    }
+]
