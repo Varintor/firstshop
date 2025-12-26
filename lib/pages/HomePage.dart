@@ -101,8 +101,11 @@ class _ProductCardState extends State<ProductCard> {
 
   @override
   Widget build(BuildContext context) {
-    // Logic to determine scale based on state
-    final double scale = _isPressed ? 0.95 : (_isHovered ? 1.02 : 1.0);
+    // ปรับ Scale ให้น้อยลง (1.02) เพื่อไม่ให้กินพื้นที่มากเกินไป
+    final double cardScale = _isPressed ? 0.98 : (_isHovered ? 1.02 : 1.0);
+    
+    // เพิ่มลูกเล่นซูมรูปภาพข้างใน (Internal Zoom) ดูแพงกว่าขยายกล่อง
+    final double imageScale = _isHovered ? 1.1 : 1.0;
 
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
@@ -112,151 +115,144 @@ class _ProductCardState extends State<ProductCard> {
         onTapUp: (_) => setState(() => _isPressed = false),
         onTapCancel: () => setState(() => _isPressed = false),
         onTap: () {
-          print("Navigating to detail...");
+          print("nextpage>>");
           Navigator.push(
             context,
-            MaterialPageRoute(
-              // Pass data to detail page here
-              builder: (context) => Detailpage(), 
-            ),
+            MaterialPageRoute(builder: (context) => Detailpage()),
           );
         },
-        child: AnimatedContainer(
+        // ใช้ AnimatedScale แทน Matrix4 เพื่อคุมไม่ให้ล้นง่ายๆ
+        child: AnimatedScale(
+          scale: cardScale,
           duration: const Duration(milliseconds: 200),
           curve: Curves.easeOut,
-          transform: Matrix4.identity()..scale(scale),
-          margin: const EdgeInsets.only(bottom: 20),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: _isHovered 
-                    ? Colors.blue.withOpacity(0.3) 
-                    : Colors.black.withOpacity(0.1),
-                blurRadius: _isHovered ? 20 : 10,
-                offset: const Offset(0, 10),
-              ),
-            ],
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Stack(
-              children: [
-                // 1. Background Image with Hero Animation
-                Positioned.fill(
-                  child: Hero(
-                    tag: 'image_${widget.index}', // Unique tag for animation
-                    child: Image.network(
-                      widget.imageUrl,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) =>
-                          Container(color: Colors.grey, child: Icon(Icons.error)),
-                    ),
-                  ),
-                ),
-
-                // 2. Gradient Overlay (Makes text readable)
-                Positioned.fill(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Colors.transparent,
-                          Colors.black.withOpacity(0.2),
-                          Colors.black.withOpacity(0.8),
-                        ],
-                        stops: const [0.4, 0.7, 1.0],
-                      ),
-                    ),
-                  ),
-                ),
-
-                // 3. Ripple Effect (Material Splash)
-                Positioned.fill(
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      splashColor: Colors.white.withOpacity(0.2),
-                      highlightColor: Colors.white.withOpacity(0.1),
-                      onTap: () {
-                        // Same navigation logic as GestureDetector
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Detailpage()),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-
-                // 4. Content Text
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Allow height for the container, content sits at bottom
-                      const SizedBox(height: 100), 
-                      Text(
-                        widget.title,
-                        style: const TextStyle(
-                          fontSize: 22,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 0.5,
-                          shadows: [
-                            Shadow(
-                              blurRadius: 10.0,
-                              color: Colors.black,
-                              offset: Offset(2.0, 2.0),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              widget.subtitle,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.white.withOpacity(0.9),
-                                height: 1.4,
-                              ),
-                            ),
-                          ),
-                          
-                          // Animated Arrow Icon
-                          AnimatedContainer(
-                            duration: const Duration(milliseconds: 300),
-                            transform: Matrix4.translationValues(
-                                _isHovered ? 5 : 0, 0, 0),
-                            child: Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.2),
-                                shape: BoxShape.circle,
-                              ),
-                              child: const Icon(
-                                Icons.arrow_forward_ios_rounded,
-                                color: Colors.white,
-                                size: 16,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            margin: const EdgeInsets.only(bottom: 20), // Margin เดิมที่มีอยู่
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              // เงาจะฟุ้งขึ้นเมื่อ Hover แต่ไม่ขยายขนาดเงาจนน่าเกลียด
+              boxShadow: [
+                BoxShadow(
+                  color: _isHovered
+                      ? Colors.blue.withOpacity(0.25)
+                      : Colors.black.withOpacity(0.1),
+                  blurRadius: _isHovered ? 15 : 10,
+                  offset: _isHovered ? const Offset(0, 8) : const Offset(0, 5),
+                  spreadRadius: _isHovered ? 2 : 0, // เงาแผ่ออกนิดเดียว
                 ),
               ],
+            ),
+            // ClipRRect สำคัญมาก! ตัดส่วนเกินของรูปที่ซูมออก ไม่ให้ล้นกรอบมน
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: SizedBox(
+                height: 150, // Fix ความสูงไว้เลย เพื่อความนิ่ง
+                child: Stack(
+                  children: [
+                    // 1. Image Background (ซูมรูปแทนซูมกล่อง)
+                    Positioned.fill(
+                      child: AnimatedScale(
+                        scale: imageScale,
+                        duration: const Duration(milliseconds: 400), // รูปซูมช้ากว่ากล่องนิดนึงให้ดูนุ่ม
+                        curve: Curves.easeOut,
+                        child: Hero(
+                          tag: 'image_${widget.index}',
+                          child: Image.network(
+                            widget.imageUrl,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) =>
+                                Container(color: Colors.grey),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    // 2. Gradient Overlay (อ่านตัวหนังสือชัดขึ้น)
+                    Positioned.fill(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.transparent,
+                              Colors.black.withOpacity(0.1),
+                              Colors.black.withOpacity(0.7),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    // 3. Ripple Effect (Touch Feedback)
+                    Positioned.fill(
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () {
+                             Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => Detailpage()),
+                            );
+                          },
+                          splashColor: Colors.white.withOpacity(0.2),
+                        ),
+                      ),
+                    ),
+
+                    // 4. Content
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.title,
+                            style: const TextStyle(
+                              fontSize: 22, // ปรับลดลงนิดนึงให้พอดีกรอบ
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              shadows: [
+                                Shadow(blurRadius: 5, color: Colors.black45, offset: Offset(1, 1))
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 5),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  widget.subtitle,
+                                  maxLines: 1, // บังคับบรรทัดเดียวไม่ให้ล้น
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white.withOpacity(0.9),
+                                  ),
+                                ),
+                              ),
+                              // ไอคอนลูกศรเล็กๆ ขยับเมื่อ Hover
+                              AnimatedContainer(
+                                duration: const Duration(milliseconds: 200),
+                                transform: Matrix4.translationValues(
+                                    _isHovered ? 5 : 0, 0, 0),
+                                child: const Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: Colors.white,
+                                  size: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
         ),
