@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:firstshop/pages/apple.dart';
 import 'package:firstshop/pages/detailpage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +39,7 @@ class _HomePageState extends State<HomePage> {
                   data[index]['title'],
                   data[index]['subtitle'],
                   data[index]['imageUrl'],
+                  data[index]['detail'],
                 );
               },
             );
@@ -49,7 +49,12 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget mybox(String title, String subtitle, String imageUrl) {
+  Widget mybox(String title, String subtitle, String imageUrl,String detail) {
+    var v1, v2, v3, v4;
+     v1=title;
+     v2=subtitle;
+     v3=imageUrl;
+     v4=detail;
     return GestureDetector(
       child: Container(
         margin: EdgeInsets.only(bottom: 20),
@@ -86,7 +91,7 @@ class _HomePageState extends State<HomePage> {
                 print("nextpage>>");
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Detailpage()),
+                  MaterialPageRoute(builder: (context) => Detailpage(v1, v2, v3, v4)),
                 );
               },
               child: Text('View Details'),

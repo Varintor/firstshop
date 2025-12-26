@@ -2,16 +2,19 @@
     {
         "title": "what is a computer?",
         "subtitle": "Computer is a things to calculate and fo any other works",
-        "imageUrl": "assets/2.jpg"
+        "imageUrl": "assets/2.jpg",
+        "detail":"A computer is a machine that can be programmed to carry out sequences of arithmetic or logical operations automatically. Modern computers can perform a wide range of tasks, from simple calculations to complex simulations and data processing."
     },
     {
         "title": "what is Flutter?",
         "subtitle": "Flutter is an open-source UI software development toolkit created by Google.",
-        "imageUrl": "assets/3.jpg"
+        "imageUrl": "assets/3.jpg",
+        "detail":"Flutter is an open-source UI software development toolkit created by Google. It is used to develop cross platform applications for Android, iOS, Linux, Mac, Windows, Google Fuchsia, and the web from a single codebase."
     },
     {
         "title": "what is Dart?",
         "subtitle": "Dart is a programming language designed for client development, such as for the web and mobile apps.",
-        "imageUrl": "assets/4.jpg"
+        "imageUrl": "assets/4.jpg",
+        "detail":"Dart is a programming language designed for client development, such as for the web and mobile apps."
     }
 ]
